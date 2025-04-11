@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: personal-newsletter-api
+    
+  redis:
+    host: localhost
+    port: 6379
+    ssl: fasle
+  
+  port: 8080
