@@ -1,11 +1,13 @@
 package com.gamjacoding.personalnewsletterapi.infrastructure.redis;
 
+import java.util.List;
+
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamjacoding.personalnewsletterapi.domain.subscriber.OperationResult;
 import com.gamjacoding.personalnewsletterapi.domain.subscriber.Subscriber;
 import com.gamjacoding.personalnewsletterapi.domain.subscriber.SubscriberRepository;
-import com.gamjacoding.personalnewsletterapi.domain.subscriber.OperationResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,6 +48,14 @@ public class RedisSubscriberRepository implements SubscriberRepository {
     public int delete(String email) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public List<String> findAllKeywords(String email) {
+        
+        Subscriber subscriber = redisTemplate.opsForValue().get(email);
+        List<String> keywords = subscriber.getKeywords();
+        return keywords;
     }
 
 }

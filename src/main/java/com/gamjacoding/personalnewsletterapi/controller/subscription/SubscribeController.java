@@ -31,9 +31,16 @@ public class SubscribeController {
     }
 
     @DeleteMapping("/unsubscribe")
-    @Operation(summary = "구독 해제제", description = "구독 해제제를 위한 API")
+    @Operation(summary = "구독 해지", description = "구독 해지를 위한 API")
     public ResponseEntity<SubscribeResponse> unsubscribe(@RequestParam String email) {
         SubscribeResponse response = subscribeService.unsubscribe(email);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/getKeyword")
+    @Operation(summary = "키워드 조회", description = "키워드 조회를 위한 API")
+    public ResponseEntity<SubscribeResponse> getKeyword(@RequestParam String email) {
+        SubscribeResponse response = subscribeService.getKeyword(email);
         return ResponseEntity.ok(response);
     }
 

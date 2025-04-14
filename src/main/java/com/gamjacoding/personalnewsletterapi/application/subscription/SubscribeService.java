@@ -55,4 +55,12 @@ public class SubscribeService {
         }
         return new SubscribeResponse("500", "존재하지 않습니다", email);
     }
+
+    public SubscribeResponse getKeyword(String email) {
+        Subscriber existing = subscribeRepository.findByEmail(email);
+        if(existing != null) {
+            return new SubscribeResponse("200", "키워드 조회 성공", subscribeRepository.findAllKeywords(email));
+        }
+        return new SubscribeResponse("500", "키워드 조회 실패 (이메일 존재하지 않음)", email);
+    }
 }

@@ -13,5 +13,5 @@ public class SubscribeResponse {
 
     private String resultCode;
     private String message;
-    private String email;
+    private Object data;
 }
