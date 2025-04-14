@@ -1,0 +1,35 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Maven
+target/
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+*.log
+logs/
+
+# Test
+src/test/
+
+# Documentation
+*.md
+HELP.md
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment
+.env
+*.properties
+*.yml
+*.yaml 
