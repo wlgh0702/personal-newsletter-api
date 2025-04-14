@@ -31,5 +31,5 @@ Dockerfile
 # Environment
 .env
 *.properties
-*.yml
-*.yaml 
+application-local.yml
+application-dev.yml 
