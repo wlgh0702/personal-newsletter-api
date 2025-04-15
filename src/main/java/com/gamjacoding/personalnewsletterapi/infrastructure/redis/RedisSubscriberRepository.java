@@ -40,15 +40,10 @@ public class RedisSubscriberRepository implements SubscriberRepository {
     @Override
     public int save(Subscriber subscriber) {
         try {
-            System.out.println("Redis 저장 시도 - 이메일: " + subscriber.getEmail());
             String json = objectMapper.writeValueAsString(subscriber);
             jedis.set(subscriber.getEmail(), json);
-            System.out.println("구독 정보 저장 성공");
             return OperationResult.SUCCESS.getCode();
         } catch (Exception e) {
-            System.err.println("Redis 저장 실패!");
-            System.err.println("예외 타입: " + e.getClass().getName());
-            System.err.println("예외 메시지: " + e.getMessage());
             e.printStackTrace();
             return OperationResult.FAIL.getCode();
         }
@@ -65,7 +60,6 @@ public class RedisSubscriberRepository implements SubscriberRepository {
             Long result = jedis.del(email);
             return result > 0 ? OperationResult.SUCCESS.getCode() : OperationResult.FAIL.getCode();
         } catch (Exception e) {
-            System.err.println("Redis 삭제 실패!");
             e.printStackTrace();
             return OperationResult.FAIL.getCode();
         }

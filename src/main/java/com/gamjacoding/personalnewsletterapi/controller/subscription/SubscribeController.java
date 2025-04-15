@@ -1,5 +1,7 @@
 package com.gamjacoding.personalnewsletterapi.controller.subscription;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,15 +34,15 @@ public class SubscribeController {
 
     @DeleteMapping("/unsubscribe")
     @Operation(summary = "구독 해지", description = "구독 해지를 위한 API")
-    public ResponseEntity<SubscribeResponse> unsubscribe(@RequestParam String email) {
-        SubscribeResponse response = subscribeService.unsubscribe(email);
+    public ResponseEntity<SubscribeResponse> unsubscribe(@RequestParam String email, @RequestParam(required = false, defaultValue = "all") List<String> keywords) {
+        SubscribeResponse response = subscribeService.unsubscribe(email, keywords);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/getKeyword")
     @Operation(summary = "키워드 조회", description = "키워드 조회를 위한 API")
     public ResponseEntity<SubscribeResponse> getKeyword(@RequestParam String email) {
-        SubscribeResponse response = subscribeService.getKeyword(email);
+        SubscribeResponse response = subscribeService.getKeywords(email);
         return ResponseEntity.ok(response);
     }
 
