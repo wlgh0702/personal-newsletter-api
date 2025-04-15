@@ -24,7 +24,11 @@ public class Subscriber implements Serializable {
     }
 
     public void updateKeywords(List<String> keywords) {
-        this.keywords = keywords;
+        for(String keyword : keywords) {
+            if(!this.keywords.contains(keyword)) {
+                this.keywords.add(keyword);
+            }
+        }
         this.subscribedAt = LocalDateTime.now();
     }
 }
