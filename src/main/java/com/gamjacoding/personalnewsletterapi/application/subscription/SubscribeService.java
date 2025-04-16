@@ -3,6 +3,8 @@ package com.gamjacoding.personalnewsletterapi.application.subscription;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.gamjacoding.personalnewsletterapi.infrastructure.news.NewsApiClient;
+import com.gamjacoding.personalnewsletterapi.infrastructure.news.OpenAIClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 public class SubscribeService {
 
     private final SubscriberRepository subscriberRepository;
+    private final NewsApiClient newsApiClient;
+    private final OpenAIClient openAIClient;
 
     @Transactional
     public SubscribeResponse subscribe(SubscribeRequest request) {
@@ -94,6 +98,28 @@ public class SubscribeService {
             log.error("키워드 조회 중 예외 발생: {}", e.getMessage());
             return new SubscribeResponse("500", "서버 내부 오류가 발생했습니다.", email);
         }
+    }
+
+    @Transactional(readOnly = true)
+    public void sendNewsletter() {
+
+        List<Subscriber> subscribers = subscriberRepository.getAllSubscribers();
+        for(Subscriber subscriber : subscribers) {
+            List<String> keywords = subscriber.getKeywords();
+
+            StringBuilder emailContent = new StringBuilder();
+
+            for(String keyword : keywords) {
+                // 키워드로 뉴스 조회
+                //String newsContent = newsApiClient.fetchNews(keyword);
+                // 뉴스 내용 번역 및 요약
+                //String summary = openAIClient.summarize(newsContent);
+                //emailContent.append('[').append(keyword).append(']').append(summary);
+            }
+
+            //emailService.send(subscriber.getEmail(), '오늘의 뉴스 요약', emailContent.toString());
+        }
+
     }
 
     private SubscribeResponse handleSaveResult(int result, String email) {

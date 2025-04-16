@@ -1,6 +1,8 @@
 package com.gamjacoding.personalnewsletterapi.infrastructure.redis;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +15,8 @@ import com.gamjacoding.personalnewsletterapi.domain.subscriber.SubscriberReposit
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.params.ScanParams;
+import redis.clients.jedis.resps.ScanResult;
 
 @Repository
 @RequiredArgsConstructor
@@ -77,5 +81,31 @@ public class RedisSubscriberRepository implements SubscriberRepository {
         } catch (Exception e) {
             throw new RuntimeException("Failed to get keywords from Redis", e);
         }
+    }
+
+    @Override
+    public List<Subscriber> getAllSubscribers() {
+        List<Subscriber> subscribers = new ArrayList<>();
+        String cursor = ScanParams.SCAN_POINTER_START;
+        ScanParams scanParams = new ScanParams().match("*").count(100);
+
+        do {
+            ScanResult<String> scanResult = jedis.scan(cursor, scanParams);
+            cursor = scanResult.getCursor();
+
+            for (String key : scanResult.getResult()) {
+                try {
+                    String jsonString = jedis.get(key);
+                    if (jsonString != null) {
+                        Subscriber subscriber = objectMapper.readValue(jsonString, Subscriber.class);
+                        subscribers.add(subscriber);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } while (!cursor.equals(ScanParams.SCAN_POINTER_START));
+
+        return subscribers;
     }
 }

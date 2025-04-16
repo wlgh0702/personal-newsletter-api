@@ -8,4 +8,5 @@ public interface SubscriberRepository {
     int update(Subscriber subscriber);
     int delete(String email);
     List<String> findAllKeywords(String email);
+    List<Subscriber> getAllSubscribers();
 }
