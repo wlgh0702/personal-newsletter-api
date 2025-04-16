@@ -1,5 +1,6 @@
 package com.gamjacoding.personalnewsletterapi.scheduler;
 
+import com.gamjacoding.personalnewsletterapi.application.news.NewsletterService;
 import com.gamjacoding.personalnewsletterapi.application.subscription.SubscribeService;
 import com.gamjacoding.personalnewsletterapi.domain.subscriber.Subscriber;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +13,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NewsletterScheduler {
 
-    private final SubscribeService subscribeService;
+    private final NewsletterService newsletterService;
 
-    @Scheduled(cron = "0 0 8 * * *")
+    @Scheduled(cron = "1/10 * * * * *")
     public void sendDailyNewsletter() {
-        subscribeService.sendNewsletter();
+        newsletterService.sendNewsletter();
     }
 }

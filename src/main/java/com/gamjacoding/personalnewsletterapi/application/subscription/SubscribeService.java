@@ -100,28 +100,6 @@ public class SubscribeService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public void sendNewsletter() {
-
-        List<Subscriber> subscribers = subscriberRepository.getAllSubscribers();
-        for(Subscriber subscriber : subscribers) {
-            List<String> keywords = subscriber.getKeywords();
-
-            StringBuilder emailContent = new StringBuilder();
-
-            for(String keyword : keywords) {
-                // 키워드로 뉴스 조회
-                //String newsContent = newsApiClient.fetchNews(keyword);
-                // 뉴스 내용 번역 및 요약
-                //String summary = openAIClient.summarize(newsContent);
-                //emailContent.append('[').append(keyword).append(']').append(summary);
-            }
-
-            //emailService.send(subscriber.getEmail(), '오늘의 뉴스 요약', emailContent.toString());
-        }
-
-    }
-
     private SubscribeResponse handleSaveResult(int result, String email) {
         return result == OperationResult.SUCCESS.getCode() ?
             new SubscribeResponse("200", "구독 처리 성공", email) :
